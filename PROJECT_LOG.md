@@ -801,4 +801,201 @@ apple-notes-mcp/
 
 ---
 
-**当前状态**: ✅ **系统部署完成，文档整理完成，等待用户选择Poke集成方案**
+## 2025-11-05 Git版本控制与GitHub部署
+
+### 一、版本控制设置
+
+**用户需求**: "我怕开了新窗口或者后续修改中又出幺蛾子以及产生屎山代码怎么办，有没有什么好的办法可以让我随时存档回滚的"
+
+**解决方案**: 使用Git进行版本控制
+
+#### 1.1 实施步骤
+
+1. **初始化Git仓库**
+   ```bash
+   cd ~/Documents/apple-notes-mcp
+   git init
+   ```
+
+2. **创建.gitignore**
+   排除不需要版本控制的文件：
+   - `chroma_db/` - 向量数据库（体积大，可重新生成）
+   - `.last_sync` - 同步时间戳
+   - `__pycache__/` - Python缓存
+   - `.DS_Store` - macOS系统文件
+
+3. **创建初始commit**
+   ```bash
+   git add README.md PROJECT_LOG.md ENCODING_FIX.md .gitignore scripts/*.py
+   git commit -m "✅ 初始版本：BGE-M3语义搜索系统（完美状态）"
+   ```
+
+   **Commit ID**: `cab9d2d` - 这是"完美状态"的存档点
+
+#### 1.2 在README.md中添加使用指南
+
+添加了完整的Git使用说明：
+- 创建存档（commit）
+- 查看历史
+- 回滚到指定版本
+- 查看文件修改历史
+
+**推荐工作流**:
+- 每次重要修改后：`git add . && git commit -m "说明"`
+- 出问题时：`git reset --hard cab9d2d` (回到完美状态)
+
+### 二、GitHub远程仓库部署
+
+**用户请求**: "你顺便帮我传到GitHub上吧，链接是 https://github.com/yinanli1917-cloud/apple-notes-mcp.git"
+
+#### 2.1 SSH密钥配置
+
+**问题**: GitHub推送需要身份验证，HTTPS方式需要token
+
+**解决方案**: 使用SSH密钥（更安全、更方便）
+
+1. **生成SSH密钥**
+   ```bash
+   ssh-keygen -t ed25519 -C "yinanli1917@gmail.com" -f ~/.ssh/id_ed25519 -N ""
+   ```
+
+2. **公钥信息**
+   ```
+   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDXJce/NIMU+z8/7GWrR9qYpofYbsAc+l1ZkzDwKnmFd yinanli1917@gmail.com
+   ```
+
+3. **添加到GitHub**
+   - 访问 https://github.com/settings/keys
+   - 添加公钥，标题: "Mac Studio M2"
+
+4. **配置known_hosts**
+   ```bash
+   ssh-keyscan github.com >> ~/.ssh/known_hosts
+   ```
+
+#### 2.2 推送到GitHub
+
+1. **配置用户信息**
+   ```bash
+   git config user.email "yinanli1917@gmail.com"
+   git config user.name "Yinan Li"
+   ```
+
+2. **添加远程仓库**
+   ```bash
+   git remote add origin git@github.com:yinanli1917-cloud/apple-notes-mcp.git
+   ```
+
+3. **推送代码**
+   ```bash
+   git push -u origin main
+   ```
+
+4. **结果**
+   ```
+   ✅ Successfully pushed to GitHub
+   - Commit: cab9d2d (初始版本)
+   - Commit: 9f39e37 (添加Git版本控制使用指南)
+   ```
+
+### 三、GitHub仓库信息
+
+**仓库地址**: https://github.com/yinanli1917-cloud/apple-notes-mcp
+
+**包含内容**:
+- ✅ 所有Python脚本（server.py, indexer.py, export_notes_fixed.py, fix_encoding.py）
+- ✅ 完整文档（README.md, PROJECT_LOG.md, ENCODING_FIX.md）
+- ✅ .gitignore配置
+- ❌ 向量数据库（已排除，太大且可重新生成）
+- ❌ 归档文件夹（未推送）
+
+### 四、后续使用指南
+
+#### 4.1 日常开发工作流
+
+**修改代码后**:
+```bash
+cd ~/Documents/apple-notes-mcp
+git status                    # 查看修改
+git add .                     # 添加修改
+git commit -m "描述修改内容"   # 创建存档
+git push                      # 推送到GitHub
+```
+
+**回滚操作**:
+```bash
+# 回滚本地代码到完美状态
+git reset --hard cab9d2d
+
+# 如果已推送到GitHub，需要强制推送
+git push --force origin main  # ⚠️ 谨慎使用
+```
+
+#### 4.2 在新机器上恢复项目
+
+```bash
+# 1. 克隆仓库
+git clone git@github.com:yinanli1917-cloud/apple-notes-mcp.git
+cd apple-notes-mcp
+
+# 2. 安装依赖
+/opt/homebrew/bin/python3.12 -m pip install --user FlagEmbedding chromadb fastmcp
+
+# 3. 导出笔记
+python3 scripts/export_notes_fixed.py
+
+# 4. 建立索引
+python3 scripts/indexer.py full
+
+# 5. 配置Claude Desktop
+# 编辑 ~/Library/Application Support/Claude/claude_desktop_config.json
+```
+
+### 五、优势总结
+
+#### 5.1 版本控制的好处
+
+1. **存档点机制**
+   - 任何时候都能回到"完美状态"
+   - 不怕实验性修改搞砸
+   - 可以查看任何时间点的代码
+
+2. **修改追踪**
+   - `git diff` 查看当前修改
+   - `git log -p` 查看历史修改
+   - 知道"谁、何时、为什么"改了代码
+
+3. **分支实验**
+   - 可以创建分支尝试新功能
+   - 失败了直接删除分支
+   - 成功了合并回主分支
+
+#### 5.2 GitHub的好处
+
+1. **远程备份**
+   - 代码存在云端，不怕本地丢失
+   - 多设备同步
+
+2. **协作能力**
+   - 可以分享给其他人
+   - 可以接受别人的贡献（Pull Request）
+
+3. **项目展示**
+   - 公开仓库可以作为作品展示
+   - README.md自动显示在仓库首页
+
+### 六、技术亮点
+
+**决策**: 使用SSH而非HTTPS
+- SSH密钥一次配置，永久免密
+- 比Personal Access Token更安全
+- 不需要在代码中存储token
+
+**完美状态标记**: `cab9d2d`
+- 明确的回滚点
+- 在README.md中记录
+- 随时可以一键恢复
+
+---
+
+**当前状态**: ✅ **Git版本控制已配置，代码已推送到GitHub，系统完全可用**
