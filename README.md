@@ -1,6 +1,6 @@
 # Apple Notes AI Search
 
-> Use AI to search your Apple Notes with natural language | 用 AI 自然语言搜索你的苹果备忘录
+> Use AI to search and index your Apple Notes with natural language | 用 AI 自然语言检索你的苹果备忘录
 
 [English](#english) | [中文](#中文)
 
@@ -12,7 +12,7 @@
 
 Turn your Apple Notes into a searchable knowledge base powered by AI. Instead of remembering exact titles, just describe what you're looking for.
 
-![Search Demo in Claude Desktop.png](https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEFee5pDF6a4WzK4Mz-XJVVEhYDeoaazwAC7D0AAie1YVTdV7rs-h_-2jYE.png)
+![Search Demo in Claude Desktop.png](https://github.com/yinanli1917-cloud/apple-notes-mcp/blob/7dcb7766ec1c2d099339fc4c0818665d555a263b/images/Search%20Demo%20in%20Claude%20Desktop.png)
 
 ### Features
 
@@ -118,7 +118,7 @@ MIT License © 2025 [Yinan Li](https://github.com/yinanli1917-cloud)
 
 用 AI 把你的苹果备忘录变成可搜索的知识库。不需要记住笔记标题，只要描述你想找什么就行。
 
-![在 Claude Desktop 里的搜索演示](https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEFeaxpDFz_ebvlFiPF1D_70AK9AUaN4AACqD0AAie1YVSqmHu0DsQR3TYE.png)
+![在 Claude Desktop 里的搜索演示](https://github.com/yinanli1917-cloud/apple-notes-mcp/blob/7dcb7766ec1c2d099339fc4c0818665d555a263b/images/Search%20Demo%20in%20Claude%20Desktop.png)
 
 ### 特性
 
@@ -226,7 +226,7 @@ A: 需要部署到云端（Fly.io 或 Railway），费用约 $2-5/月。
 
 ### 致谢
 
-**灵感来源**：[ima (腾讯出品)](https://ima.qq.com/download?webFrom=10000075) - 优秀的 Apple Notes 搜索应用
+**灵感来源**：[ima (腾讯出品)](https://ima.qq.com/download?webFrom=10000075) - 优秀的 本地RAG个人知识库 应用
 
 **使用的开源项目**：
 - [FastMCP](https://github.com/jlowin/fastmcp)
