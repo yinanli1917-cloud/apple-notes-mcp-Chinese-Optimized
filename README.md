@@ -226,7 +226,7 @@ A: 需要部署到云端（Fly.io 或 Railway），费用约 $2-5/月。
 
 ### 致谢
 
-**灵感来源**：[ima (腾讯出品)](https://ima.qq.com/download?webFrom=10000075) - 优秀的 本地RAG个人知识库 应用
+**灵感来源**：[ima (腾讯出品)](https://ima.qq.com/download?webFrom=10000075) - 优秀的 在线RAG个人知识库 应用
 
 **使用的开源项目**：
 - [FastMCP](https://github.com/jlowin/fastmcp)
