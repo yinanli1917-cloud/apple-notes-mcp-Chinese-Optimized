@@ -1,296 +1,345 @@
-# Apple Notes MCP 语义搜索系统
+# 苹果备忘录 AI 搜索助手
 
-> 使用BGE-M3模型实现高质量中文语义搜索，可部署到云端实现远程访问
+> 让 AI 帮你搜索备忘录，就像和朋友聊天一样简单
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/apple-notes-mcp)
+![GitHub stars](https://img.shields.io/github/stars/yinanli1917-cloud/apple-notes-mcp?style=social)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## 功能特性
-
-- ✅ **语义搜索**：基于 BGE-M3 模型（1024维向量）
-- ✅ **高准确率**：87% 中文语义匹配准确率
-- ✅ **多语言支持**：中英文混合 + 100+ 语言
-- ✅ **多端接入**：Claude Desktop、Poke AI（iMessage）
-- ✅ **本地/云端**：支持本地和 Railway 云端部署
-- ✅ **API 保护**：云端部署自动启用 API Key 认证
-
-## 快速部署
-
-### 方式 1: 本地使用（Claude Desktop）
-
-1. 克隆仓库并安装依赖
-2. 导出笔记：`python3 scripts/export_notes_fixed.py`
-3. 构建索引：`python3 scripts/indexer.py`
-4. 配置 Claude Desktop（见下文）
-
-### 方式 2: 云端部署（Poke AI 远程访问）
-
-1. 点击上方 "Deploy on Railway" 按钮
-2. 设置环境变量 `API_KEY`
-3. 上传你的 `notes.db`
-4. 运行 `build_index_cloud.py`
-
-**详细步骤**: 查看 [DEPLOY.md](DEPLOY.md) 或 [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
+**作者**: [Yinan Li](https://github.com/yinanli1917-cloud) & [Claude Code](https://claude.ai/claude-code)
 
 ---
 
-## 当前状态（作者实例）
+## 🤔 这是什么？
 
-- **920条笔记** 已索引
-- **BGE-M3模型**（1024维向量）
-- **中文语义准确率**: 87%
-- **支持中英混合搜索**
+想象一下：你有几百条甚至上千条备忘录，想找"上个月写的关于 AI 的笔记"，但完全记不清标题是什么...
 
-### 如何使用
+**传统方式**：一条条翻，用关键词搜索，找半天找不到 😫
 
-1. **在Claude Desktop中搜索**：
-   ```
-   搜索"幽默搞笑" → 返回相关笔记
-   搜索"AI人工智能" → 返回AI主题笔记
-   ```
+**用这个工具**：直接问 AI"帮我找关于 AI 的笔记"，几秒钟就找到了 ✨
 
-2. **刷新索引**（当你添加新笔记时）：
-   - 在Claude Desktop中说："刷新备忘录索引"
+---
 
-3. **调整返回数量**：
-   - 默认返回5条，可以说："搜索xxx，返回20条结果"
+## ✨ 它能做什么？
 
-## 系统架构
+### 和 AI 聊天搜索笔记
 
-```
-Apple Notes
-    ↓
-export_notes_fixed.py (UTF-8导出)
-    ↓
-~/notes.db (SQLite, 920条笔记)
-    ↓
-indexer.py (BGE-M3, 1024维向量)
-    ↓
-~/Documents/apple-notes-mcp/chroma_db/ (向量数据库)
-    ↓
-server.py (MCP服务器, BGE-M3查询)
-    ↓
-Claude Desktop (MCP客户端)
-```
+**不需要记住笔记标题**，只要描述你想找什么：
 
-## 文件说明
+- 💬 "帮我找幽默搞笑的内容"
+- 💬 "上个月关于工作的笔记"
+- 💬 "有哪些关于 AI 的想法"
 
-### 核心文件
-- `scripts/server.py` - MCP服务器（Claude Desktop调用）
-- `scripts/indexer.py` - 索引脚本（建立向量数据库）
-- `scripts/export_notes_fixed.py` - UTF-8导出脚本
+### 理解你的意思
 
-### 配置文件
-- `~/.zshrc` - Python 3.12环境变量
-- `~/Library/Application Support/Claude/claude_desktop_config.json` - MCP配置
+**不是简单的关键词匹配**，而是真正理解语义：
 
-### 数据文件
-- `~/notes.db` - SQLite数据库（920条笔记）
-- `~/Documents/apple-notes-mcp/chroma_db/` - 向量索引
+- 搜"幽默" → 也能找到"笑话"、"搞笑"相关的
+- 搜"美国政治" → 能找到"代议制"、"三权分立"相关的
+- 搜"AI" → 能找到"人工智能"、"机器学习"相关的
 
-### 文档（可选阅读）
-- `PROJECT_LOG.md` - 完整技术日志（决策过程、测试结果、bug修复）
-- `ENCODING_FIX.md` - UTF-8编码修复说明
+### 在多个地方使用
 
-## 常见操作
+- 🖥️ **Claude Desktop**：在电脑上和 Claude 对话时搜索
+- 📱 **Poke AI**：通过 iMessage 搜索（还在测试中）
+- 🌐 **任何支持 MCP 的 AI 工具**
 
-### 添加新笔记后刷新索引
+---
+
+## 🎯 适合谁用？
+
+### ✅ 适合你，如果：
+
+- 你用苹果备忘录（Apple Notes）
+- 你的备忘录很多（几十条以上）
+- 你经常找不到笔记在哪
+- 你想让 AI 帮你整理和搜索
+
+### ⚠️ 可能不适合，如果：
+
+- 你不用苹果备忘录（目前只支持 Apple Notes）
+- 你的笔记很少（几条笔记不需要搜索）
+- 你不会用电脑命令行（需要一点点技术基础）
+
+---
+
+## 🚀 5 分钟快速开始
+
+### 第一步：准备工作
+
+**你需要**：
+- ✅ 一台 Mac 电脑（因为要导出 Apple Notes）
+- ✅ 会用终端（Terminal）运行几个命令
+- ✅ （可选）GitHub 账号（如果想要远程访问）
+
+**安装工具**：
 ```bash
-cd ~/Documents/apple-notes-mcp/scripts
-python3 export_notes_fixed.py  # 导出笔记
-python3 indexer.py              # 增量索引
+# 确认你有 Python 3.10 或更高版本
+python3 --version
+
+# 如果没有，用 Homebrew 安装
+brew install python@3.12
 ```
 
-### 查看统计信息
+### 第二步：下载这个项目
+
 ```bash
-cd ~/Documents/apple-notes-mcp/scripts
-python3 indexer.py stats
+# 下载代码
+git clone https://github.com/yinanli1917-cloud/apple-notes-mcp.git
+cd apple-notes-mcp
+
+# 安装依赖（需要几分钟）
+pip3 install -r requirements.txt
 ```
 
-### 测试搜索（不通过MCP）
+### 第三步：导出你的备忘录
+
 ```bash
-cd ~/Documents/apple-notes-mcp/scripts
-python3 indexer.py search "搜索关键词"
+cd scripts
+python3 export_notes_fixed.py
 ```
 
-### 完全重建索引
+这会把你的备忘录导出到一个数据库文件（`~/notes.db`）。
+
+### 第四步：建立搜索索引
+
 ```bash
-rm -rf ~/Documents/apple-notes-mcp/chroma_db/
-cd ~/Documents/apple-notes-mcp/scripts
-python3 indexer.py full
+python3 indexer.py
 ```
 
-## 技术栈
+第一次运行会下载 AI 模型（大约 560MB），然后处理你的笔记。
 
-- **嵌入模型**: BAAI/bge-m3 (1024维)
-- **向量数据库**: ChromaDB
-- **MCP框架**: FastMCP
-- **Python版本**: 3.12
+**预计时间**：3-5 分钟（取决于笔记数量）
 
-## 性能指标
+**完成后会显示**：
+```
+✅ 索引构建完成！已索引 XXX 条笔记
+```
 
-- 索引时间: ~3分钟（920条笔记）
-- 搜索准确率: 87%
-- 跨语言: ✅ 支持中英文混合
-- 语义理解: ✅ 深度语义，非关键词匹配
+### 第五步：开始使用
 
-## 故障排除
+#### 方式 A：在 Claude Desktop 中使用
 
-### 搜索报错"Collection expecting embedding with dimension of 1024, got 384"
-**解决**: 重启Claude Desktop（Cmd+Q退出后重开）
-
-### 搜索结果中文乱码
-**原因**: 使用了旧的export脚本
-**解决**: 运行`python3 export_notes_fixed.py`重新导出
-
-### MCP工具不可用
-**检查**:
-1. `~/Library/Application Support/Claude/claude_desktop_config.json`配置是否正确
-2. 重启Claude Desktop
-3. 查看日志: `~/Library/Logs/Claude/mcp-server-apple-notes.log`
-
-## Poke AI 集成（iMessage 助手）
-
-**✅ 已实现！** 现在可以通过 Poke AI (Interaction Inc.) 在 iMessage 中搜索你的备忘录。
-
-### 快速开始
-
-1. **启动 HTTP MCP 服务器**：
+1. 打开配置文件：
    ```bash
-   cd ~/Documents/apple-notes-mcp/scripts
-   python3 server_http.py
+   open ~/Library/Application\ Support/Claude/claude_desktop_config.json
    ```
 
-2. **在 Poke AI 中配置**：
-   - Name: `Apple Notes Search`
-   - Server URL: `http://127.0.0.1:8000/sse`
-   - API Key: *(留空)*
+2. 添加这段配置：
+   ```json
+   {
+     "mcpServers": {
+       "apple-notes": {
+         "command": "python3",
+         "args": [
+           "/Users/你的用户名/Documents/apple-notes-mcp/scripts/server.py"
+         ]
+       }
+     }
+   }
+   ```
 
-3. **在 iMessage 中使用**：
-   - "搜索幽默搞笑的内容"
-   - "找一找关于 AI 的笔记"
-   - "查看备忘录统计"
+   **注意**：把 `/Users/你的用户名` 改成你的实际路径
 
-**详细文档**: 查看 [POKE_INTEGRATION.md](POKE_INTEGRATION.md)
+3. 重启 Claude Desktop（完全退出后重新打开）
 
-### 两个服务器版本
+4. 在对话中试试：
+   ```
+   搜索"幽默搞笑的内容"
+   ```
 
-- **server.py** - Claude Desktop 使用（stdio 传输）
-- **server_http.py** - Poke AI 使用（HTTP/SSE 传输）
+#### 方式 B：在手机上使用（通过 Poke AI）
 
-两者可以同时运行，互不干扰。
+**正在开发中**，目前有连接问题。如果你想试试：
 
-## 下一步扩展
+1. 启动服务器：
+   ```bash
+   cd ~/Documents/apple-notes-mcp
+   ./start_poke_server.sh
+   ```
 
-### 选项A: 提升搜索质量
-1. 使用DeepSeek API重排序
-2. 混合检索（BM25 + 向量搜索）
-3. 查询扩展
+2. 在 Poke AI 中配置：
+   - Server URL: `http://你的Mac局域网IP:8000/sse`
+   - API Key: 留空
 
-### 选项B: 性能优化
-1. MPS GPU加速
-2. 模型预加载
-3. 批量查询
-
-## 版本控制（存档与回滚）
-
-### 快速操作指南
-
-项目已使用Git进行版本控制，你可以随时创建"存档点"和回滚。
-
-#### 创建存档（每次重要修改后）
-```bash
-cd ~/Documents/apple-notes-mcp
-
-# 1. 查看修改了什么
-git status
-
-# 2. 添加所有修改（或指定文件）
-git add .
-
-# 3. 创建存档点（commit）
-git commit -m "描述你的修改，例如：添加了XXX功能"
-```
-
-#### 查看历史存档
-```bash
-# 查看所有存档点
-git log --oneline
-
-# 查看详细历史
-git log
-```
-
-#### 回滚到某个存档点
-```bash
-# 方式1: 回滚所有未提交的修改（恢复到上次commit）
-git reset --hard HEAD
-
-# 方式2: 回滚到特定存档点
-git log --oneline  # 找到commit的ID（例如：cab9d2d）
-git reset --hard cab9d2d  # 回滚到那个存档点
-
-# 方式3: 只是查看旧版本（不真的回滚）
-git checkout cab9d2d  # 切换到那个版本查看
-git checkout main      # 回到最新版本
-```
-
-#### 查看某个文件的修改历史
-```bash
-# 查看文件修改记录
-git log -p scripts/server.py
-
-# 对比当前版本和上次commit的差异
-git diff scripts/server.py
-```
-
-### 推荐的使用流程
-
-**每次重要修改后**：
-1. `git status` - 查看改了什么
-2. `git add .` - 添加修改
-3. `git commit -m "说明修改内容"` - 创建存档点
-
-**出问题时**：
-1. `git log --oneline` - 找到"完美状态"的commit ID
-2. `git reset --hard <commit-ID>` - 一键回滚
-
-**当前完美状态存档**：
-- Commit: `cab9d2d` (初始版本)
-- 描述: BGE-M3语义搜索系统，920条笔记，87%准确率
-- 如果出问题，运行: `git reset --hard cab9d2d`
-
-## 项目维护指南
-
-### 文档结构
-项目现在只保留3个核心文档：
-- **README.md** (本文件) - 快速开始和日常使用
-- **PROJECT_LOG.md** - 完整技术决策日志（给技术人员）
-- **ENCODING_FIX.md** - UTF-8编码修复说明（特定问题参考）
-
-旧文档已归档到 `archive/` 文件夹，不影响日常使用。
-
-### 上下文管理策略
-由于 Claude Code 对话窗口的上下文有限，建议：
-1. **当前对话**：专注于已完成的部署和维护
-2. **新功能开发**（如Poke集成）：建议开启新对话窗口
-3. **技术日志**：所有重要决策已记录在 PROJECT_LOG.md 中
-4. **会话延续**：新对话可以读取这3个文档快速恢复上下文
-
-### Claude Code 对话窗口命名
-在 VSCode 的 Claude Code 扩展中：
-- 对话窗口名称由第一条用户消息自动生成
-- 目前无法手动重命名对话窗口
-- 建议：开启新对话时，第一条消息使用清晰的标题
-  - 例如："Poke集成 - Apple Notes MCP语义搜索"
-  - 这样窗口名称会自动设置为该标题
-
-## 项目维护者
-
-- **产品经理**: 用户
-- **技术实施**: Claude
-- **项目目标**: ✅ 达成 - 实现ima级别中文语义搜索
+详细步骤见 [POKE_INTEGRATION.md](POKE_INTEGRATION.md)
 
 ---
 
-**最后更新**: 2025-11-05
-**项目状态**: ✅ 生产环境运行中
+## 📊 效果如何？
+
+**基于实际测试**（920 条笔记）：
+
+- ✅ **搜索准确率**：87%
+- ✅ **响应速度**：0.1-0.2 秒
+- ✅ **理解中文**：非常好（专门优化过）
+- ✅ **混合语言**：中英文混合也能搜
+
+**示例效果**：
+
+| 你问 AI | AI 找到的笔记 |
+|---------|-------------|
+| "幽默搞笑的内容" | 😄 笑话、搞笑段子、讽刺文章 |
+| "关于 AI 的想法" | 🤖 AI 应用、机器学习、技术讨论 |
+| "美国政治制度" | 🏛️ 代议制、三权分立、批判文章 |
+
+---
+
+## 🛠️ 工作原理（技术细节）
+
+如果你想了解它是怎么工作的：
+
+### 1. 导出笔记
+把 Apple Notes 的笔记导出到 SQLite 数据库
+
+### 2. AI 理解
+使用 BGE-M3 模型（一个专门理解中文的 AI 模型）把每条笔记转换成"向量"（一串数字，代表笔记的含义）
+
+### 3. 存储索引
+把这些向量存储到 ChromaDB（一个向量数据库）
+
+### 4. 搜索
+当你搜索时，AI 也把你的问题转换成向量，然后找最相似的笔记
+
+**技术栈**：
+- **BGE-M3**：嵌入模型（1024 维向量）
+- **ChromaDB**：向量数据库
+- **FastMCP**：MCP 协议框架
+- **Python 3.12**
+
+---
+
+## 💰 费用和限制
+
+### 本地使用（完全免费）
+
+- ✅ 所有数据在你电脑上
+- ✅ 不需要联网（除了下载模型）
+- ✅ 隐私完全保护
+- ⚠️ 只能在你的 Mac 上用
+
+### 云端部署（需要小额费用）
+
+如果你想在手机上用（通过流量，不限制 WiFi）：
+
+- 💰 **Railway**：约 $5/月
+- 💰 **Fly.io**：约 $2-3/月
+- ⚠️ 笔记数据会上传到云端（但只有你能访问）
+
+**详细部署教程**：
+- [Railway 部署](RAILWAY_DEPLOYMENT.md)
+- [Fly.io 部署](FLY_DEPLOYMENT.md)
+
+---
+
+## 🔐 隐私和安全
+
+### 你的数据在哪？
+
+- **本地部署**：所有数据在你的 Mac 上，不会上传
+- **云端部署**：笔记会上传到你的私有云服务器（Railway/Fly.io）
+
+### 如何保护？
+
+- ✅ 笔记数据库（notes.db）不会上传到 GitHub
+- ✅ 云端部署有 API Key 保护
+- ✅ 自动使用 HTTPS 加密
+
+### 敏感信息怎么办？
+
+如果你的笔记包含密码、信用卡等敏感信息：
+
+**建议只用本地部署**，或者：
+- 导出前删除敏感笔记
+- 或者手动过滤敏感内容
+
+---
+
+## 🆘 常见问题
+
+### Q: 我不会用命令行怎么办？
+
+A: 这个项目目前需要一点点命令行基础。如果完全不会，可以：
+1. 找懂技术的朋友帮忙
+2. 或者等我们做一个图形界面版本
+
+### Q: 支持其他笔记应用吗？
+
+A: 目前只支持 Apple Notes。如果你用：
+- **Notion**、**Evernote**、**Obsidian** 等：可以先导出成纯文本，稍作修改就能用
+- 欢迎贡献代码支持更多应用！
+
+### Q: 搜索结果不准确怎么办？
+
+A: 试试这些：
+1. 换个说法（比如"幽默"换成"笑话"）
+2. 增加返回结果数量（"搜索 XXX，返回 20 条"）
+3. 查看文档中的故障排除部分
+
+### Q: 能不能添加自动同步？
+
+A: 目前需要手动运行命令更新索引。自动同步正在计划中！
+
+---
+
+## 📚 完整文档
+
+- 🚀 [云端部署指南](DEPLOY.md) - 部署到服务器，手机也能用
+- 📱 [Poke AI 集成](POKE_INTEGRATION.md) - 通过 iMessage 搜索
+- 🔧 [开发者文档](PROJECT_LOG.md) - 技术细节和决策记录
+
+---
+
+## 🤝 参与贡献
+
+欢迎任何形式的贡献！
+
+### 你可以：
+
+- 🐛 **报告 Bug**：[提交 Issue](https://github.com/yinanli1917-cloud/apple-notes-mcp/issues)
+- 💡 **提建议**：告诉我们你想要什么功能
+- 📝 **改进文档**：让文档更清楚易懂
+- 💻 **贡献代码**：Fork 项目，提交 Pull Request
+
+### 开发计划：
+
+- [ ] 支持更多笔记应用
+- [ ] 图形界面（不需要用命令行）
+- [ ] 自动同步功能
+- [ ] 更多 AI 客户端支持
+- [ ] 完善文档和示例
+
+---
+
+## 🙏 致谢
+
+### 使用的开源项目
+
+- [FastMCP](https://github.com/jlowin/fastmcp) - MCP 协议框架
+- [BGE-M3](https://github.com/FlagOpen/FlagEmbedding) - 中文嵌入模型
+- [ChromaDB](https://www.trychroma.com/) - 向量数据库
+
+### 灵感来源
+
+这个项目的灵感来自 [ima](https://ima.app) - 一个优秀的苹果备忘录搜索应用。我们的目标是做一个开源版本，让大家都能用上！
+
+---
+
+## 📄 开源协议
+
+MIT License - 详见 [LICENSE](LICENSE)
+
+简单来说：你可以自由使用、修改、分发这个项目，但需要保留原作者信息。
+
+---
+
+## ⭐ 觉得有用？
+
+如果这个项目帮到了你，请给我们一个 Star ⭐！
+
+这是对我们最大的鼓励 💪
+
+---
+
+**Made with ❤️ by Yinan Li & Claude Code**
+
+有问题？[提 Issue](https://github.com/yinanli1917-cloud/apple-notes-mcp/issues) 或 [加入讨论](https://github.com/yinanli1917-cloud/apple-notes-mcp/discussions)

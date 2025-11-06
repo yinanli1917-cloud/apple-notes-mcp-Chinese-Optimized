@@ -29,7 +29,7 @@ CHROMA_DB = Path.home() / "Documents/apple-notes-mcp/chroma_db"
 INDEXER_SCRIPT = Path.home() / "Documents/apple-notes-mcp/scripts/indexer.py"
 
 # HTTP 服务器配置
-HOST = "127.0.0.1"  # 本地访问，更安全
+HOST = "0.0.0.0"    # 监听所有网络接口（局域网可访问）
 PORT = 8000         # 端口号
 
 # ============ BGE-M3 嵌入函数 ============
