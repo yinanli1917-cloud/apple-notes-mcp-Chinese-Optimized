@@ -1,0 +1,58 @@
+[Unit]
+Description=Apple Notes MCP Local Server
+Documentation=https://github.com/yinanli1917-cloud/apple-notes-mcp
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USERNAME
+Group=YOUR_USERGROUP
+
+# 工作目录
+WorkingDirectory=/home/YOUR_USERNAME/apple-notes-mcp
+
+# 执行命令
+ExecStart=/usr/bin/python3 /home/YOUR_USERNAME/apple-notes-mcp/scripts/server_enhanced.py --port 8000
+
+# 重启策略
+Restart=on-failure
+RestartSec=10s
+
+# 启动超时
+TimeoutStartSec=60s
+
+# 停止超时
+TimeoutStopSec=30s
+
+# 环境变量
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+# 可选：设置 API 密钥
+# Environment="APPLE_NOTES_API_KEY=your-secret-key-here"
+
+# 标准输出和错误输出到 journal
+StandardOutput=journal
+StandardError=journal
+
+# 日志级别
+SyslogIdentifier=apple-notes-mcp
+SyslogLevel=info
+
+# 安全设置
+# 私有临时目录
+PrivateTmp=true
+
+# 限制进程能力
+NoNewPrivileges=true
+
+# 资源限制
+# 内存限制（2GB）
+MemoryLimit=2G
+
+# CPU 限制（可选，限制为 100% CPU 使用）
+# CPUQuota=100%
+
+# 文件描述符限制
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

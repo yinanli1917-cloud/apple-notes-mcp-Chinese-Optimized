@@ -152,7 +152,9 @@ cd scripts && python3 export_notes_fixed.py
 python3 indexer.py
 ```
 
-**在 Claude Desktop 中使用：**
+### 使用方式
+
+#### 方式 1: Claude Desktop（推荐新手）
 
 1. 编辑 Claude 配置文件：
    ```bash
@@ -177,6 +179,28 @@ python3 indexer.py
 
 👉 [了解更多关于配置 MCP 服务器](https://modelcontextprotocol.io/quickstart/user)
 
+#### 方式 2: 本地服务器（接入 Poke AI 等） ⭐ **新功能**
+
+启动增强版 HTTP 服务器：
+
+```bash
+cd ~/Documents/apple-notes-mcp
+chmod +x server_manager.sh
+
+# 后台启动
+./server_manager.sh start --daemon
+
+# 查看状态
+./server_manager.sh status
+```
+
+然后在 Poke AI 中配置：
+- Server URL: `http://127.0.0.1:8000/sse`
+
+详细说明：
+- [本地服务器部署指南](docs/LOCAL_SERVER.md)
+- [Poke AI 快速开始](docs/QUICK_POKE_START.md)
+
 ### 费用
 
 **本地使用（免费）：**
@@ -198,8 +222,11 @@ python3 indexer.py
 
 ### 文档
 
+- [本地服务器部署](docs/LOCAL_SERVER.md) ⭐ **新功能**
+- [Poke AI 集成指南](docs/POKE_INTEGRATION.md)
+- [Poke AI 快速开始](docs/QUICK_POKE_START.md)
 - [云端部署指南](docs/DEPLOY.md)
-- [Poke AI 集成](docs/POKE_INTEGRATION.md)（开发中）
+- [系统服务安装](service/INSTALL.md)
 - [技术文档](docs/PROJECT_LOG.md)
 
 ### 参与贡献

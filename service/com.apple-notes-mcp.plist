@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 服务标识 -->
+    <key>Label</key>
+    <string>com.apple-notes-mcp</string>
+
+    <!-- 服务描述 -->
+    <key>ServiceDescription</key>
+    <string>Apple Notes MCP 本地服务器 - 用于 Poke AI 和其他 MCP 客户端</string>
+
+    <!-- 执行程序和参数 -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/python3</string>
+        <string>/Users/YOUR_USERNAME/Documents/apple-notes-mcp/scripts/server_enhanced.py</string>
+        <string>--port</string>
+        <string>8000</string>
+    </array>
+
+    <!-- 工作目录 -->
+    <key>WorkingDirectory</key>
+    <string>/Users/YOUR_USERNAME/Documents/apple-notes-mcp</string>
+
+    <!-- 开机自动启动 -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- 保持运行（崩溃后自动重启） -->
+    <key>KeepAlive</key>
+    <dict>
+        <!-- 只在意外退出时重启，正常退出（exit 0）不重启 -->
+        <key>SuccessfulExit</key>
+        <false/>
+
+        <!-- 崩溃后 10 秒重启 -->
+        <key>Crashed</key>
+        <true/>
+    </dict>
+
+    <!-- 重启限制 -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+
+    <!-- 标准输出日志 -->
+    <key>StandardOutPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/apple-notes-mcp/stdout.log</string>
+
+    <!-- 标准错误日志 -->
+    <key>StandardErrorPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/apple-notes-mcp/stderr.log</string>
+
+    <!-- 环境变量 -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+
+        <!-- 可选：设置 API 密钥 -->
+        <!-- <key>APPLE_NOTES_API_KEY</key>
+        <string>your-secret-key-here</string> -->
+    </dict>
+
+    <!-- 用户上下文（在用户登录时运行） -->
+    <key>LimitLoadToSessionType</key>
+    <array>
+        <string>Aqua</string>
+    </array>
+
+    <!-- 资源限制 -->
+    <key>SoftResourceLimits</key>
+    <dict>
+        <!-- 内存限制（字节） -->
+        <key>MemoryLimit</key>
+        <integer>2147483648</integer> <!-- 2GB -->
+    </dict>
+
+    <!-- Nice 值（进程优先级，-20 到 20，数值越小优先级越高） -->
+    <key>Nice</key>
+    <integer>0</integer>
+
+    <!-- 进程类型（适用于长时间运行的后台服务） -->
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <!-- 启用低优先级 I/O -->
+    <key>LowPriorityIO</key>
+    <false/>
+</dict>
+</plist>
