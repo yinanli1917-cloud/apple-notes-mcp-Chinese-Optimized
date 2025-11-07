@@ -358,15 +358,93 @@ Apple Notes (原始数据源)
 
 ---
 
-## 联系与反馈
+## Poke AI 集成调试（2025-11-07）
 
-如果遇到问题或有改进建议：
-1. 查看 [README.md](README.md) 了解项目概况
-2. 查看 [PROJECT_LOG.md](PROJECT_LOG.md) 了解技术细节
-3. 在 GitHub 仓库提交 Issue: https://github.com/yinanli1917-cloud/apple-notes-mcp
+### 当前状态
+
+**问题**: Poke AI 报错 "Cannot read properties of undefined (reading 'status')"
+
+**已验证**:
+- ✅ 服务器运行正常（HTTP 200 OK）
+- ✅ iPhone 可以通过 WiFi 访问服务器（`http://10.0.0.189:8000/sse`）
+- ✅ SSE 流格式正确（每 15 秒发送心跳包）
+- ✅ Poke AI 支持 MCP（已用 Metaso 的 MCP 测试成功）
+
+**问题分析**:
+1. **技术栈差异**:
+   - poke-mcp 使用: TypeScript + `@modelcontextprotocol/sdk` (官方 SDK)
+   - 我们使用: Python + `fastmcp` (第三方实现)
+
+2. **可能的兼容性问题**:
+   - FastMCP 的 SSE 实现可能与官方 MCP SDK 不完全兼容
+   - Poke AI 可能只支持官方 SDK 的消息格式
+
+### 参考项目：poke-mcp
+
+**GitHub**: https://github.com/kaishin/poke-mcp
+
+**关键信息**:
+- 使用 Cloudflare Workers 部署
+- 使用官方 `@modelcontextprotocol/sdk` (v1.17.1)
+- 使用 `agents` 包 (v0.0.109) 提供的 `McpAgent` 基类
+- 部署 URL 格式: `https://poke-mcp.username.workers.dev/sse`
+
+**技术优势**:
+- ✅ 免费额度大（100,000 请求/天）
+- ✅ 全球边缘网络（低延迟）
+- ✅ 冷启动快（<10ms）
+- ✅ 与 Poke AI 兼容性好
+
+### 解决方案建议
+
+#### 短期方案（调试当前 Python 实现）:
+
+1. **对比 SSE 消息格式**:
+   ```bash
+   # 测试 poke-mcp 的响应
+   curl -v https://poke-mcp.kaishin.workers.dev/sse
+
+   # 测试我们的响应
+   curl -v http://10.0.0.189:8000/sse
+
+   # 对比差异
+   ```
+
+2. **检查 FastMCP 版本和配置**:
+   - 升级到最新 FastMCP 版本
+   - 查看 FastMCP 文档关于 SSE 传输的说明
+
+3. **添加调试日志**:
+   - 在 server_http.py 中增加详细的请求/响应日志
+   - 查看 Poke AI 发送了什么请求
+
+#### 长期方案（使用 Cloudflare Workers）:
+
+**优点**:
+- 与 Poke AI 兼容性更好（使用官方 SDK）
+- 免费额度大
+- 支持远程访问（不需要 WiFi）
+
+**挑战**:
+- BGE-M3 模型太大，无法在 Workers 中运行
+  - **解决**: 使用 Cloudflare Workers AI 的嵌入模型（如 `@cf/baai/bge-base-en-v1.5`）
+- ChromaDB 需要持久化存储
+  - **解决**: 使用 R2 对象存储 + 简化的向量搜索算法
+
+**实施步骤**: 参见 [CLOUDFLARE_DEPLOYMENT.md](CLOUDFLARE_DEPLOYMENT.md)
 
 ---
 
-**最后更新**: 2025-11-05
-**版本**: 1.0
-**状态**: ✅ 已测试，服务器运行正常
+## 联系与反馈
+
+如果遇到问题或有改进建议：
+1. 查看 [README.md](../README.md) 了解项目概况
+2. 查看 [PROJECT_LOG.md](PROJECT_LOG.md) 了解技术细节
+3. 查看 [CLOUDFLARE_DEPLOYMENT.md](CLOUDFLARE_DEPLOYMENT.md) 了解 Cloudflare Workers 部署
+4. 在 GitHub 仓库提交 Issue: https://github.com/yinanli1917-cloud/apple-notes-mcp
+
+---
+
+**最后更新**: 2025-11-07
+**版本**: 1.1
+**状态**: ⚠️ 调试中 - Poke AI 集成遇到兼容性问题
