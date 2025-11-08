@@ -118,6 +118,7 @@ Search your notes directly from iMessage using Poke AI!
 ### Documentation
 
 - [Poke AI Integration Guide](docs/POKE_INTEGRATION.md) - Search via iMessage
+- [Auto-Sync Guide](docs/AUTO_SYNC.md) - Keep your index up-to-date automatically
 - [Cloudflare Tunnel Setup](docs/CLOUDFLARE_TUNNEL.md) - Local-to-cloud bridge
 - [Cloud Deployment Guide](docs/DEPLOY.md) - Deploy to Fly.io/Railway
 - [Project Status](STATUS.md) - Current features and roadmap
@@ -251,6 +252,7 @@ python3 indexer.py
 ### 文档
 
 - [Poke AI 集成指南](docs/POKE_INTEGRATION.md) - 通过 iMessage 搜索
+- [自动同步指南](docs/AUTO_SYNC.md) - 自动保持索引最新
 - [Cloudflare Tunnel 配置](docs/CLOUDFLARE_TUNNEL.md) - 本地到云端桥接
 - [云端部署指南](docs/DEPLOY.md) - 部署到 Fly.io/Railway
 - [项目状态](STATUS.md) - 当前功能和路线图
