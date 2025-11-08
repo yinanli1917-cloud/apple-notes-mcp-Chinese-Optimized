@@ -98,6 +98,7 @@ Search your notes directly from iMessage using Poke AI!
 - No internet required (except downloading models)
 
 **Cloud Deploy (Optional):**
+- Cloudflare: Free plan is enough
 - Fly.io: ~$2-3/month
 - Railway: ~$5/month
 - Access from anywhere with your phone
@@ -230,6 +231,7 @@ python3 indexer.py
 - 无需联网（除了下载模型）
 
 **云端部署（可选）：**
+- Cloudflare: 免费版已经足够消费者使用了
 - Fly.io：约 $2-3/月
 - Railway：约 $5/月
 - 可以在任何地方用手机访问
@@ -274,7 +276,7 @@ A: 目前只支持 Apple Notes。Notion、Evernote 等可以先导出成文本�
 
 **Q: 能在手机上用吗？**
 
-A: 需要部署到云端（Fly.io 或 Railway），费用约 $2-5/月。
+A: 当然可以！任何支持MCP的AI都可以✨
 
 ### 致谢
 
