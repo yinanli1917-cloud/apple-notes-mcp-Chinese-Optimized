@@ -30,9 +30,18 @@ ENV/
 # macOS
 .DS_Store
 
-# 日志文件
+# 日志文件和目录
 *.log
+logs/
+
+# Cloudflare Workers
+cloudflare-worker/node_modules/
+cloudflare-worker/.wrangler/
+cloudflare-worker/dist/
 
 # 临时文件
 *.tmp
 *.bak
+
+# Cloudflare Tunnel URL (changes on each restart)
+.tunnel_url
